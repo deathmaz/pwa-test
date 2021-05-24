@@ -1,0 +1,7 @@
+@use '@styles/settings/colors.scss';
+
+body {
+  font-weight: normal;
+  background-color: colors.$white;
+  color: colors.$black;
+}
