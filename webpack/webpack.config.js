@@ -7,6 +7,8 @@ const {
   merge,
 } = require('webpack-merge');
 const baseConfig = require('./webpack.config.base.js');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = merge(baseConfig, {
   plugins: [
     new CleanWebpackPlugin(),
@@ -15,6 +17,14 @@ module.exports = merge(baseConfig, {
         ? '[name].[contenthash].css'
         : '[name].css',
       ignoreOrder: true,
+    }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      template: helpers.getSrcPath('/templates/app.ejs'),
+      filename: helpers.getSrcPath('../public/dist/index.html'),
+      chunks: [
+        'app',
+      ],
     }),
   ],
 
