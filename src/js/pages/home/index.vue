@@ -20,10 +20,21 @@ export default defineComponent({
       });
     }
 
+    async function getManifest() {
+      if (!window.mazWorkbox) {
+        return;
+      }
+      const manifest = await window.mazWorkbox.messageSW({
+        type: 'GET_MANIFEST',
+      });
+      window.console.log(manifest);
+    }
+
     return {
       count,
       onClick,
       subscribe,
+      getManifest,
     };
   },
 });
@@ -38,6 +49,10 @@ export default defineComponent({
     <br >
     <button type="button" @click="subscribe">
       Subscribe to push notification
+    </button>
+    <br >
+    <button type="button" @click="getManifest">
+      Get workbox manifest
     </button>
 
     {{ count }}

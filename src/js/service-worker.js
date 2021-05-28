@@ -40,7 +40,8 @@ import {
   }),
 ); */
 
-precacheAndRoute(self.__WB_MANIFEST);
+const MANIFEST = self.__WB_MANIFEST;
+precacheAndRoute(MANIFEST);
 
 setDefaultHandler(new NetworkOnly());
 
@@ -77,4 +78,9 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+
+  if (event.data.type === 'GET_MANIFEST') {
+    event.ports[0].postMessage(MANIFEST);
+  }
 });
+

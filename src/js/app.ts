@@ -23,6 +23,7 @@ Notification.requestPermission(function(status) {
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const wb = new Workbox('/service-worker.js');
+    window.mazWorkbox = wb;
     const showSkipWaitingPrompt = () => {
       if (window.confirm('New version available, refresh?')) {
         wb.addEventListener('controlling', () => {
