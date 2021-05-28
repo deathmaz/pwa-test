@@ -5,31 +5,38 @@ import {
   offlineFallback,
 } from 'workbox-recipes';
 import {
-  setDefaultHandler,
+  setDefaultHandler, registerRoute,
 } from 'workbox-routing';
 import {
-  NetworkOnly,
+  NetworkOnly, CacheFirst,
 } from 'workbox-strategies';
-
-/* self.addEventListener('install', event => {
-  self.skipWaiting();
-}); */
+import {
+  ExpirationPlugin,
+} from 'workbox-expiration';
+import {
+  CacheableResponsePlugin,
+} from 'workbox-cacheable-response';
 
 /* registerRoute(({
   request,
 }) => request.destination === 'script', new NetworkFirst()); */
 
-/* registerRoute(
-  ({
-    request,
-  }) => [
-    'style',
-    'script',
-    'worker',
-  ].includes(request.destination),
-  new StaleWhileRevalidate({
-    cacheName: 'asset-cache',
+const MANIFEST = self.__WB_MANIFEST;
+precacheAndRoute(MANIFEST);
+
+registerRoute(
+  /^https:\/\/picsum.photos\/id*/,
+  new CacheFirst({
+    cacheName: 'remote-images',
+    matchOptions: {
+      ignoreVary: true,
+    },
     plugins: [
+      new ExpirationPlugin({
+        maxEntries: 500,
+        maxAgeSeconds: 2629800,
+        purgeOnQuotaError: true,
+      }),
       new CacheableResponsePlugin({
         statuses: [
           0,
@@ -38,10 +45,7 @@ import {
       }),
     ],
   }),
-); */
-
-const MANIFEST = self.__WB_MANIFEST;
-precacheAndRoute(MANIFEST);
+);
 
 setDefaultHandler(new NetworkOnly());
 
@@ -83,4 +87,3 @@ self.addEventListener('message', event => {
     event.ports[0].postMessage(MANIFEST);
   }
 });
-

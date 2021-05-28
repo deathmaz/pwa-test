@@ -17,7 +17,7 @@ new Vue({
 }).$mount('#app');
 
 Notification.requestPermission(function(status) {
-  window.console.info('Notification permission status:', status);
+  window.console.log('Notification permission status:', status);
 });
 
 if ('serviceWorker' in navigator) {

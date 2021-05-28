@@ -42,6 +42,10 @@ export default defineComponent({
 
 <template>
   <div>
+    <div>
+      <img src="https://picsum.photos/id/237/200/300" >
+    </div>
+
     <form-field />
     <button type="button" @click="onClick">
       Increase
