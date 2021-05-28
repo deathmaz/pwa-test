@@ -3,6 +3,9 @@ import Vue from 'vue';
 import App from '@front/app.vue';
 import VueRouter from 'vue-router';
 import router from '@front/router';
+import {
+  Workbox,
+} from 'workbox-window';
 
 Vue.config.productionTip = false;
 
@@ -14,28 +17,40 @@ new Vue({
 }).$mount('#app');
 
 Notification.requestPermission(function(status) {
-  console.log('Notification permission status:', status);
+  window.console.info('Notification permission status:', status);
 });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/service-worker.js')
+    const wb = new Workbox('/service-worker.js');
+    const showSkipWaitingPrompt = () => {
+      if (window.confirm('New version available, refresh?')) {
+        wb.addEventListener('controlling', () => {
+          window.location.reload();
+        });
+
+        wb.messageSkipWaiting();
+      }
+    };
+
+    wb.addEventListener('waiting', showSkipWaitingPrompt);
+
+    wb.register()
       .then(registration => {
-        console.log('SW registered: ', registration);
+        if (!registration) {
+          return;
+        }
         window.mazServiceWorkerRegistration = registration;
         registration.pushManager.getSubscription().then(function(sub) {
           if (sub === null) {
-            // Update UI to ask user to register for Push
-            console.log('Not subscribed to push service!');
+            window.console.log('Not subscribed to push service!');
           } else {
-            // We have a subscription, update the database
-            console.log('Subscription object: ', sub);
+            window.console.log('Subscription object: ', sub);
           }
         });
       })
       .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
+        console.error('SW registration failed: ', registrationError);
       });
   });
 }

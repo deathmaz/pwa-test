@@ -72,3 +72,9 @@ self.addEventListener('push', event => {
 
   event.waitUntil(self.registration.showNotification('Push Notification', options));
 });
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});

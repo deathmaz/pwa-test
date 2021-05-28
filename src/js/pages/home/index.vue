@@ -15,8 +15,8 @@ export default defineComponent({
     }
 
     function subscribe() {
-      window.mazServiceWorkerRegistration.pushManager.subscribe().then(function(pushSubscription) {
-        console.log(pushSubscription);
+      window.mazServiceWorkerRegistration?.pushManager.subscribe().then(function(pushSubscription) {
+        window.console.log(pushSubscription);
       });
     }
 
@@ -33,7 +33,7 @@ export default defineComponent({
   <div>
     <form-field />
     <button type="button" @click="onClick">
-      Increase number
+      Increase
     </button>
     <br >
     <button type="button" @click="subscribe">
