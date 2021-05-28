@@ -1,5 +1,5 @@
 {
-  "name": "vue-webpack-template",
+  "name": "pwa-test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue,.ts --ignore-path .gitignore .",
     "lint-fix": "npm run lint -- --fix",
     "dev-server": "NODE_ENV=development webpack serve --config ./webpack/webpack.config.server.js --progress",
-    "start": "http-server public/dist"
+    "start": "http-server dist"
   },
   "husky": {
     "hooks": {

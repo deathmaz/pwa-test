@@ -1,7 +1,6 @@
 const helpers = require('./helpers.js');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const rules = require('./rules.js');
-const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
@@ -17,11 +16,6 @@ module.exports = {
   },
   performance: {
     hints: false,
-  },
-  output: {
-    publicPath: './',
-    path: path.resolve(__dirname, '../public/dist'),
-    filename: helpers.isProduction ? '[name].[contenthash].js' : '[name].js',
   },
   resolve: {
     extensions: [
