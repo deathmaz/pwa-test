@@ -3,7 +3,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const rules = require('./rules.js');
 const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   mode: helpers.isProduction ? 'production' : 'development',
@@ -11,6 +10,9 @@ module.exports = {
   entry: {
     app: [
       helpers.getSrcPath('/js/app.ts'),
+    ],
+    offline: [
+      helpers.getSrcPath('/js/offline.ts'),
     ],
   },
   performance: {
@@ -47,12 +49,6 @@ module.exports = {
           memoryLimit: 4096,
         },
       },
-    }),
-    new WorkboxPlugin.GenerateSW({
-      // these options encourage the ServiceWorkers to get in there fast
-      // and not allow any straggling "old" SWs to hang around
-      clientsClaim: true,
-      skipWaiting: true,
     }),
   ],
 };
