@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.3",
+    "axios": "^0.21.1",
     "vue": "^2.6.12",
     "vue-router": "^3.4.8",
     "workbox-cacheable-response": "^6.1.5",

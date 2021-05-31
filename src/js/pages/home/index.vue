@@ -3,12 +3,21 @@ import {
   defineComponent, ref,
 } from '@vue/composition-api';
 import FormField from '@components/form-field/form-field.vue';
+import axios from 'axios';
 
 export default defineComponent({
   components: {
     FormField,
   },
   setup() {
+    const products = ref([] as any[]);
+    async function getProducts() {
+      const productList = await axios.get('https://fakestoreapi.com/products?limit=5');
+      products.value = productList.data;
+    }
+
+    getProducts();
+
     const count = ref(0);
     function onClick() {
       count.value++;
@@ -35,6 +44,7 @@ export default defineComponent({
       onClick,
       subscribe,
       getManifest,
+      products,
     };
   },
 });
@@ -44,6 +54,16 @@ export default defineComponent({
   <div>
     <div>
       <img src="https://picsum.photos/id/237/200/300" >
+    </div>
+
+    <div class="product-list-grid">
+      <div v-for="product in products" :key="product.id">
+        <img
+          class="product__image"
+          :src="product.image"
+          :alt="product.title" >
+        <h3>{{ product.title }}</h3>
+      </div>
     </div>
 
     <form-field />
@@ -72,3 +92,17 @@ export default defineComponent({
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.product-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+  grid-gap: 20px;
+}
+
+.product {
+  &__image {
+    max-width: 100%;
+  }
+}
+</style>

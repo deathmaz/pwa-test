@@ -8,7 +8,7 @@ import {
   setDefaultHandler, registerRoute,
 } from 'workbox-routing';
 import {
-  NetworkOnly, CacheFirst,
+  NetworkOnly, CacheFirst, StaleWhileRevalidate,
 } from 'workbox-strategies';
 import {
   ExpirationPlugin,
@@ -17,12 +17,25 @@ import {
   CacheableResponsePlugin,
 } from 'workbox-cacheable-response';
 
-/* registerRoute(({
-  request,
-}) => request.destination === 'script', new NetworkFirst()); */
-
 const MANIFEST = self.__WB_MANIFEST;
 precacheAndRoute(MANIFEST);
+
+registerRoute(
+  ({
+    url,
+  }) => url.origin === 'https://fakestoreapi.com',
+  new StaleWhileRevalidate({
+    cacheName: 'external-api-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [
+          0,
+          200,
+        ],
+      }),
+    ],
+  }),
+);
 
 registerRoute(
   /^https:\/\/picsum.photos\/id*/,
