@@ -69,6 +69,7 @@ export default defineComponent({
     <form-field />
     <button type="button" @click="onClick">
       Increase
+      {{ count }}
     </button>
     <br >
     <button type="button" @click="subscribe">
@@ -78,8 +79,6 @@ export default defineComponent({
     <button type="button" @click="getManifest">
       Get workbox manifest
     </button>
-
-    {{ count }}
     <div>
       <router-link
         :to="{
